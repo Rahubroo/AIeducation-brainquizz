@@ -1,11 +1,14 @@
-import environ
+# import environ
+# import os
+
+# env = environ.Env(
+#     # set casting, default value
+#     DEBUG=(bool, False)
+# )
+# environ.Env.read_env()
 import os
 
-env = environ.Env(
-    # set casting, default value
-    DEBUG=(bool, False)
-)
-environ.Env.read_env()
+
 
 from pathlib import Path
 
@@ -13,20 +16,20 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Take environment variables from .env file
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+# environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY ='#oa=pwt$2jgz$p64ba6n!%vwn025(0puo92k+4s8xp*xi4b#=n'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DEBUG')
+DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1", "aieducation-brainquizz-production.up.railway.app"]
+ALLOWED_HOSTS = ["127.0.0.1", "Localhost"]
 
-CSRF_TRUSTED_ORIGINS = ["https://aieducation-brainquizz-production.up.railway.app/"]
+# CSRF_TRUSTED_ORIGINS = ["https://aieducation-brainquizz-production.up.railway.app/"]
 
 
 # Application definition
@@ -42,7 +45,6 @@ INSTALLED_APPS = [
     'base',
     'quiz',
     'ckeditor',
-    'storages',
 ]
 
 MIDDLEWARE = [
@@ -81,23 +83,23 @@ LOGIN_URL = 'login'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ["PGDATABASE"],
-        'USER': os.environ["PGUSER"],
-        'PASSWORD': os.environ["PGPASSWORD"],
-        'HOST': os.environ["PGHOST"],
-        'PORT': os.environ["PGPORT"],
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': os.environ["PGDATABASE"],
+#         'USER': os.environ["PGUSER"],
+#         'PASSWORD': os.environ["PGPASSWORD"],
+#         'HOST': os.environ["PGHOST"],
+#         'PORT': os.environ["PGPORT"],
+#     }
+# }
 
 
 # Password validation
@@ -141,7 +143,8 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static' # folder location
 ]
 
-MEDIA_URL = 'media/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR , 'media')
 MEDIA_ROOT = BASE_DIR / 'media'
 
 CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
@@ -151,15 +154,15 @@ CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME = env('AWS_STORAGE_BUCKET_NAME')
+# AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
+# AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
+# AWS_STORAGE_BUCKET_NAME = env('AWS_STORAGE_BUCKET_NAME')
 # AWS_S3_REGION_NAME = 'us-east-2' 
 
-AWS_S3_FILE_OVERWRITE = False
-AWS_DEFAULT_ACL = None
+# AWS_S3_FILE_OVERWRITE = False
+# AWS_DEFAULT_ACL = None
 # AWS_QUERYSTRING_AUTH = False
 
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
-STATICFILES_STORAGES = 'storages.backends.s3boto3.S3Boto3Storage'
+# STATICFILES_STORAGES = 'storages.backends.s3boto3.S3Boto3Storage'

@@ -68,53 +68,51 @@ def profile(request, username):
 
 @login_required
 def editProfile(request):
-
     user_object = request.user
     user_profile = request.user.profile
 
     if request.method == "POST":
         # Image
-        if request.FILES.get('profile_img') != None:
+        if request.FILES.get('profile_img') is not None:
             user_profile.profile_img = request.FILES.get('profile_img')
             user_profile.save()
 
         # Email
-        if request.POST.get('email') != None:
-            u = get_object_or_404(User, email=request.POST.get('email'))
+        if request.POST.get('email') is not None:
+            email = request.POST.get('email')
+            existing_user = User.objects.filter(email=email).first()
 
-            if u == None:
-                user_object.email = request.POST.get('email')
+            if existing_user is None or existing_user == user_object:
+                user_object.email = email
                 user_object.save()
             else:
-                if u != user_object:
-                    messages.info(request, "Email Already Used, Choose a different one!")
-                    return redirect('edit_profile')
+                messages.info(request, "Email Already Used, Choose a different one!")
+                return redirect('edit_profile')
 
         # Username
-        if request.POST.get('username') != None:
-            u = get_object_or_404(User, username=request.POST.get('username'))
+        if request.POST.get('username') is not None:
+            username = request.POST.get('username')
+            existing_user = User.objects.filter(username=username).first()
 
-            if u == None:
-                user_object.username = request.POST.get('username')
+            if existing_user is None or existing_user == user_object:
+                user_object.username = username
                 user_object.save()
             else:
-                if u != user_object:
-                    messages.info(request, "Username Already Taken, Choose an unique one!")
-                    return redirect('edit_profile')
+                messages.info(request, "Username Already Taken, Choose a unique one!")
+                return redirect('edit_profile')
 
-        # firstname lastname
-        user_object.first_name = request.POST.get('firstname')
-        user_object.last_name = request.POST.get('lastname')
+        # First name and last name
+        user_object.first_name = request.POST.get('firstname', user_object.first_name)
+        user_object.last_name = request.POST.get('lastname', user_object.last_name)
         user_object.save()
 
-        # location , bio, gender
-        user_profile.location = request.POST.get('location')
-        user_profile.gender = request.POST.get('gender')
-        user_profile.bio = request.POST.get('bio')
+        # Location, bio, gender
+        user_profile.location = request.POST.get('location', user_profile.location)
+        user_profile.gender = request.POST.get('gender', user_profile.gender)
+        user_profile.bio = request.POST.get('bio', user_profile.bio)
         user_profile.save()
 
         return redirect('profile', user_object.username)
-
 
     context = {"user_profile": user_profile}
     return render(request, 'profile-edit.html', context)

@@ -40,10 +40,10 @@ class Quiz(models.Model):
     # function to extract excel file
     def import_quiz_from_excel(self):
         # Use self.quiz_file.url to get the S3 file URL
-        s3_url = self.quiz_file.url
+        file_path = self.quiz_file.path
 
         # Use smart_open to read the Excel file from S3
-        with open(s3_url, 'rb') as file:
+        with open(file_path, 'rb') as file:
             # Load the Excel file content into a pandas DataFrame
             df = pd.read_excel(io.BytesIO(file.read()))
 

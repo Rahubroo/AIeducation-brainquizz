@@ -80,8 +80,9 @@ def dashboard_view(request):
 
 def gain_percentage(total, today):
     if total > 0 and today > 0:
-        gain = math.floor((today *100)/total)
+        gain = math.floor((today * 100) / total)
         return gain
+    return 0  # Return 0 if total or today is 0
 
 def about_view(request):
     return render(request, "about.html")
